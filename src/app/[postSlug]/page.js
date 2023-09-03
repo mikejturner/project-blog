@@ -7,9 +7,12 @@ import { loadBlogPost } from '@/helpers/file-helpers';
 import CodeSnippet from '@/components/CodeSnippet';
 import styles from './postSlug.module.css';
 
-// Lazy load the DivisionGroupDemo
+// Lazy load the Demo Components
 const DivisionGroupsDemo = dynamic(() =>
   import('@/components/DivisionGroupsDemo')
+);
+const CircularColorsDemo = dynamic(() =>
+  import('@/components/CircularColorsDemo')
 );
 
 export async function generateMetadata({ params }) {
@@ -32,7 +35,11 @@ async function BlogPost({ params }) {
       <div className={styles.page}>
         <MDXRemote
           source={content}
-          components={{ pre: CodeSnippet, DivisionGroupsDemo }}
+          components={{
+            pre: CodeSnippet,
+            DivisionGroupsDemo,
+            CircularColorsDemo,
+          }}
         />
       </div>
     </article>
