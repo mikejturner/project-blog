@@ -24,6 +24,9 @@ export async function getBlogPostList() {
   return blogPosts.sort((p1, p2) => (p1.publishedOn < p2.publishedOn ? 1 : -1));
 }
 
+// This can also be written by wrapping the original function:
+// export const loadBlogPost = React.cache(async function loadBlogPost(slug)
+// and not turning it into an arrow function
 export const loadBlogPost = React.cache(async (slug) => {
   try {
     const rawContent = await readFile(`/content/${slug}.mdx`);
