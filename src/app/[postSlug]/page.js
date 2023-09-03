@@ -6,6 +6,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import { loadBlogPost } from '@/helpers/file-helpers';
 import CodeSnippet from '@/components/CodeSnippet';
 import styles from './postSlug.module.css';
+import { BLOG_TITLE } from '@/constants';
 
 // Lazy load the Demo Components
 const DivisionGroupsDemo = dynamic(() =>
@@ -18,7 +19,7 @@ const CircularColorsDemo = dynamic(() =>
 export async function generateMetadata({ params }) {
   const { frontmatter } = await loadBlogPost(params.postSlug);
   return {
-    title: frontmatter.title,
+    title: `${frontmatter.title} · ${BLOG_TITLE}`,
     description: frontmatter.abstract,
   };
 }
