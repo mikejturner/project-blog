@@ -17,15 +17,11 @@ function DivisionGroupsDemo({
 }) {
   const id = React.useId();
 
-  const [numOfGroups, setNumOfGroups] = React.useState(
-    initialNumOfGroups
-  );
+  const [numOfGroups, setNumOfGroups] = React.useState(initialNumOfGroups);
 
   const numOfItemsPerGroup = Math.floor(numOfItems / numOfGroups);
 
-  const remainder = includeRemainderArea
-    ? numOfItems % numOfGroups
-    : null;
+  const remainder = includeRemainderArea ? numOfItems % numOfGroups : null;
 
   // When we're splitting into 1-3 groups, display side-by-side
   // columns. When we get to 4, it should switch to a 2x2 grid.
@@ -56,22 +52,20 @@ function DivisionGroupsDemo({
 
         <LayoutGroup>
           <div className={styles.demoWrapper}>
-            <div
-              className={clsx(styles.demoArea)}
-              style={gridStructure}
-            >
+            <div className={clsx(styles.demoArea)} style={gridStructure}>
               {range(numOfGroups).map((groupIndex) => (
                 <div key={groupIndex} className={styles.group}>
                   {range(numOfItemsPerGroup).map((index) => {
-                    const layoutIndex =
-                      groupIndex * numOfItemsPerGroup + index;
+                    const layoutIndex = groupIndex * numOfItemsPerGroup + index;
                     const layoutId = `${id}-${layoutIndex}`;
                     return (
                       <motion.div
                         layoutId={layoutId}
                         key={layoutId}
                         className={styles.item}
-                      />
+                      >
+                        {layoutIndex}
+                      </motion.div>
                     );
                   })}
                 </div>
@@ -85,7 +79,18 @@ function DivisionGroupsDemo({
             <p className={styles.remainderHeading}>Remainder Area</p>
 
             {range(remainder).map((index) => {
-              return <div key={index} className={styles.item} />;
+              const layoutIndex =
+                numOfItemsPerGroup * numOfGroups + (remainder - index) - 1;
+              const layoutId = `${id}-${layoutIndex}`;
+              return (
+                <motion.div
+                  layoutId={layoutId}
+                  key={layoutId}
+                  className={styles.item}
+                >
+                  {layoutIndex}
+                </motion.div>
+              );
             })}
           </div>
         )}
