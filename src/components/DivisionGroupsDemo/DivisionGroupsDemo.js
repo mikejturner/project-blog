@@ -63,9 +63,7 @@ function DivisionGroupsDemo({
                         layoutId={layoutId}
                         key={layoutId}
                         className={styles.item}
-                      >
-                        {layoutIndex}
-                      </motion.div>
+                      />
                     );
                   })}
                 </div>
@@ -87,9 +85,7 @@ function DivisionGroupsDemo({
                   layoutId={layoutId}
                   key={layoutId}
                   className={styles.item}
-                >
-                  {layoutIndex}
-                </motion.div>
+                />
               );
             })}
           </div>
