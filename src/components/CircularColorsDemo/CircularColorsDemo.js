@@ -31,11 +31,17 @@ function CircularColorsDemo() {
 
   React.useEffect(() => {
     if (isPlaying) {
-      window.setTimeout(() => {
-        setElapsedTime(timeElapsed + 1);
+      const initialTime = Math.floor(new Date().getTime() / 1000);
+      const intervalId = window.setInterval(() => {
+        const timeNow = Math.floor(new Date().getTime() / 1000);
+        setElapsedTime(timeNow - initialTime);
       }, 1000);
+
+      return () => {
+        window.clearInterval(intervalId);
+      };
     }
-  }, [isPlaying, timeElapsed]);
+  }, [isPlaying]);
 
   return (
     <MotionConfig reducedMotion="user">
