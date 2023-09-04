@@ -17,31 +17,38 @@ const COLORS = [
 
 function CircularColorsDemo() {
   const [timeElapsed, setElapsedTime] = React.useState(0);
-  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [status, setStatus] = React.useState('idle');
 
   const selectedColor = COLORS[timeElapsed % COLORS.length];
 
   function handleReset() {
+    setStatus('idle');
     setElapsedTime(0);
   }
 
   function handleTogglePlay() {
-    setIsPlaying(!isPlaying);
+    if (status === 'idle') {
+      setStatus('playing');
+      // Increase the elapsed time to make the widget respond
+      // immediately and feel a bit snappier
+      setElapsedTime(timeElapsed + 1);
+    } else {
+      setStatus('idle');
+    }
   }
 
   React.useEffect(() => {
-    if (isPlaying) {
-      const initialTime = Math.floor(new Date().getTime() / 1000);
-      const intervalId = window.setInterval(() => {
-        const timeNow = Math.floor(new Date().getTime() / 1000);
-        setElapsedTime(timeNow - initialTime);
-      }, 1000);
-
-      return () => {
-        window.clearInterval(intervalId);
-      };
+    if (status !== 'playing') {
+      return;
     }
-  }, [isPlaying]);
+    const intervalId = window.setInterval(() => {
+      setElapsedTime((currentValue) => currentValue + 1);
+    }, 1000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [status]);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -81,8 +88,10 @@ function CircularColorsDemo() {
           </dl>
           <div className={styles.actions}>
             <button onClick={handleTogglePlay}>
-              {isPlaying ? <Pause /> : <Play />}
-              <VisuallyHidden>Play</VisuallyHidden>
+              {status === 'idle' ? <Play /> : <Pause />}
+              <VisuallyHidden>
+                {status === 'idle' ? 'Play' : 'Pause'}
+              </VisuallyHidden>
             </button>
             <button onClick={handleReset}>
               <RotateCcw />
