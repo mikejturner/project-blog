@@ -3,8 +3,6 @@ import path from 'path';
 import matter from 'gray-matter';
 import React from 'react';
 
-import { notFound } from 'next/navigation';
-
 export async function getBlogPostList() {
   const fileNames = await readDirectory('/content');
 
@@ -28,14 +26,16 @@ export async function getBlogPostList() {
 // export const loadBlogPost = React.cache(async function loadBlogPost(slug)
 // and not turning it into an arrow function
 export const loadBlogPost = React.cache(async (slug) => {
+  let rawContent;
   try {
-    const rawContent = await readFile(`/content/${slug}.mdx`);
-    const { data: frontmatter, content } = matter(rawContent);
-
-    return { frontmatter, content };
+    rawContent = await readFile(`/content/${slug}.mdx`);
   } catch (error) {
-    notFound();
+    return null;
   }
+
+  const { data: frontmatter, content } = matter(rawContent);
+
+  return { frontmatter, content };
 });
 
 function readFile(localPath) {
