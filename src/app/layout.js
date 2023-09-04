@@ -7,6 +7,7 @@ import {
   BLOG_DESCRIPTION,
   LIGHT_TOKENS,
   DARK_TOKENS,
+  COLOR_THEME_COOKIE_NAME,
 } from '@/constants';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -33,7 +34,7 @@ export const metadata = {
 
 function RootLayout({ children }) {
   // Get theme from cookie
-  const savedTheme = cookies().get('color-theme');
+  const savedTheme = cookies().get(COLOR_THEME_COOKIE_NAME);
   const theme = savedTheme?.value || 'light';
 
   return (
