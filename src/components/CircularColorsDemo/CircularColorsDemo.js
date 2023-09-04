@@ -19,6 +19,8 @@ function CircularColorsDemo() {
   const [timeElapsed, setElapsedTime] = React.useState(0);
   const [status, setStatus] = React.useState('idle');
 
+  const id = React.useId();
+
   const selectedColor = COLORS[timeElapsed % COLORS.length];
 
   function handleReset() {
@@ -61,7 +63,7 @@ function CircularColorsDemo() {
               <li className={styles.color} key={index}>
                 {isSelected && (
                   <motion.div
-                    layoutId="selected"
+                    layoutId={`${id}-selected-color-outline`}
                     className={styles.selectedColorOutline}
                   />
                 )}
